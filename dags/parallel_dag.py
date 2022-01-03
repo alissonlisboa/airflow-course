@@ -31,14 +31,14 @@ with DAG("parallel_dag",
             bash_command="sleep 3"
         )
     
-    # parallel_tasks = SubDagOperator(
-    #     task_id='parallel_tasks',
-    #     subdag=subdag_parallel_dag('parallel_dag', 'parallel_tasks', default_args)
-    # )
+    parallel_tasks = SubDagOperator(
+        task_id='parallel_tasks',
+        subdag=subdag_parallel_dag('parallel_dag', 'parallel_tasks', default_args)
+    )
     
     task4 = BashOperator(
         task_id='task4',
         bash_command="sleep 3"
     )
 
-    task1 >> parallel_tasks2 >> task4
+    task1 >> parallel_tasks2 >> parallel_tasks >> task4
